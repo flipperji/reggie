@@ -77,12 +77,12 @@ public class EmployeeController {
         //需默认给一个初始密码
         employee.setPassword(md5DigestAsHex);
         //创建时间
-        employee.setCreateTime(LocalDateTime.now());
+       // employee.setCreateTime(LocalDateTime.now());
         //更新时间
-        employee.setUpdateTime(LocalDateTime.now());
-        Long id = (Long) request.getSession().getAttribute("employee");
-        employee.setCreateUser(id);
-        employee.setUpdateUser(id);
+      //  employee.setUpdateTime(LocalDateTime.now());
+//        Long id = (Long) request.getSession().getAttribute("employee");
+//        employee.setCreateUser(id);
+//        employee.setUpdateUser(id);
         //注意username不可重复，会抛异常
         employService.save(employee);
         return R.success("新增员工成功");
