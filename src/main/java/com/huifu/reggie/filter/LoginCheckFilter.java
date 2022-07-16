@@ -1,6 +1,7 @@
 package com.huifu.reggie.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.huifu.reggie.common.BaseContext;
 import com.huifu.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -36,6 +37,8 @@ public class LoginCheckFilter implements Filter {
         //这次请求需要判断是否登录
         Object employee = request.getSession().getAttribute("employee");
         if (null != employee) {
+            Long id = (Long) employee;
+            BaseContext.setCurrentId(id);
             filterChain.doFilter(request, response);
             return;
         }

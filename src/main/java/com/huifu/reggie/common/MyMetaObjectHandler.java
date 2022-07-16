@@ -22,6 +22,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         log.info("公共字段自动填充[insert].........");
         metaObject.setValue("createTime", LocalDateTime.now());
         metaObject.setValue("updateTime", LocalDateTime.now());
+        metaObject.setValue("createUser", BaseContext.getCurrentId());
+        metaObject.setValue("updateUser", BaseContext.getCurrentId());
 
     }
 
@@ -33,5 +35,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         log.info("公共字段自动更新[update].........");
         metaObject.setValue("updateTime", LocalDateTime.now());
+        metaObject.setValue("updateUser", BaseContext.getCurrentId());
+
     }
 }
