@@ -40,8 +40,8 @@ public class UserController {
         return R.success("短信发送失败");
     }
 
-    @PostMapping("/login")
-    public R<User> login(@RequestBody Map map, HttpSession session) {
+    @PostMapping("/login1")
+    public R<User> login1(@RequestBody Map map, HttpSession session) {
         String phone = (String) map.get("phone");
         String code = (String) map.get("code");
         String codeInSession = (String) session.getAttribute(phone);
@@ -62,4 +62,19 @@ public class UserController {
         return R.error("短信验证失败");
     }
 
+    @PostMapping("/login")
+    public R<User> login(@RequestBody Map map, HttpSession session) {
+        String phone = (String) map.get("phone");
+        LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(User::getPhone, phone);
+        User user = userService.getOne(userLambdaQueryWrapper);
+        if (user == null) {
+            user = new User();
+            user.setPhone(phone);
+            user.setStatus(1);
+            userService.save(user);
+        }
+        session.setAttribute("user",user.getId());
+        return R.success(user);
+    }
 }
