@@ -27,7 +27,13 @@ public class LoginCheckFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String requestURI = request.getRequestURI();
         //定义不需要过滤的请求路径
-        String[] urls = new String[]{"/employee/login", "/employee/logout", "/backend/**", "/front/**"};
+        String[] urls = new String[]{"/employee/login",
+                "/employee/logout",
+                "/backend/**",
+                "/front/**",
+                "/user/sendMsg",//移动端发送短信
+                "/user/login"//移动端登录
+        };
         boolean check = check(urls, requestURI);
         if (check) {
             filterChain.doFilter(request, response);
@@ -39,6 +45,14 @@ public class LoginCheckFilter implements Filter {
         if (null != employee) {
             Long id = (Long) employee;
             BaseContext.setCurrentId(id);
+            filterChain.doFilter(request, response);
+            return;
+        }
+        //判断移动端用户登录状态
+        Object user = request.getSession().getAttribute("user");
+        if (null != user) {
+            Long userId = (Long) user;
+            BaseContext.setCurrentId(userId);
             filterChain.doFilter(request, response);
             return;
         }
